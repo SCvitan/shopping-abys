@@ -9,6 +9,8 @@ import hr.abysalto.hiring.mid.model.CartItem;
 import hr.abysalto.hiring.mid.model.User;
 import hr.abysalto.hiring.mid.repository.CartItemRepository;
 import hr.abysalto.hiring.mid.repository.CartRepository;
+import hr.abysalto.hiring.mid.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,13 +22,13 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final DummyJsonClient dummyJsonClient;
+    private final UserRepository userRepository;
 
-    public CartService(CartRepository cartRepository,
-                       CartItemRepository cartItemRepository,
-                       DummyJsonClient dummyJsonClient) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, DummyJsonClient dummyJsonClient, UserRepository userRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.dummyJsonClient = dummyJsonClient;
+        this.userRepository = userRepository;
     }
 
     public void addToCart(User user, AddToCartRequest request) {
