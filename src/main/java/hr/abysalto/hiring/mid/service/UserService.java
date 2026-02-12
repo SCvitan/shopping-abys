@@ -2,6 +2,7 @@ package hr.abysalto.hiring.mid.service;
 
 import hr.abysalto.hiring.mid.dto.AuthResponse;
 import hr.abysalto.hiring.mid.dto.RegisterRequest;
+import hr.abysalto.hiring.mid.exception.UserAlreadyExistsException;
 import hr.abysalto.hiring.mid.model.Cart;
 import hr.abysalto.hiring.mid.model.User;
 import hr.abysalto.hiring.mid.repository.UserRepository;
@@ -27,9 +28,7 @@ public class UserService {
 
     public AuthResponse register(RegisterRequest request, HttpServletResponse response){
         if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalStateException(
-                    "Email " + request.email() + " already in use!"
-            );
+            throw new UserAlreadyExistsException("User with email: " + request.email() +  " already exists");
         }
 
         User user = new User();

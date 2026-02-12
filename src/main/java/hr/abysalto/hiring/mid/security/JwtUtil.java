@@ -15,7 +15,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // key bi se inace spremio u .env ili nekakav secret stash u produkciji, ovdje samo referenca
-    private static final String SECRET_KEY = "sk_live_IvBSUMzKejaN7ht7iEJjXDQOpBaBL5wn";
+    private static final String SECRET_KEY = "ghjkJ_Wjkk_sdSIvBSUMzKejaN7ht7iEJjXDQOpBaBL5wn";
     private static final long EXPIRATION = 1000 * 60 * 60 * 24;
 
     private Key getSigningKey(){
