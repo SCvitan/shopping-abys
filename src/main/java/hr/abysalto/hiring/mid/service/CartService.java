@@ -22,13 +22,11 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final DummyJsonClient dummyJsonClient;
-    private final UserRepository userRepository;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, DummyJsonClient dummyJsonClient, UserRepository userRepository) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, DummyJsonClient dummyJsonClient) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.dummyJsonClient = dummyJsonClient;
-        this.userRepository = userRepository;
     }
 
     public void addToCart(User user, AddToCartRequest request) {

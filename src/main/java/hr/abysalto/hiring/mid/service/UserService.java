@@ -3,6 +3,7 @@ package hr.abysalto.hiring.mid.service;
 import hr.abysalto.hiring.mid.dto.AuthResponse;
 import hr.abysalto.hiring.mid.dto.LoginRequest;
 import hr.abysalto.hiring.mid.dto.RegisterRequest;
+import hr.abysalto.hiring.mid.exception.InvalidCredentialsException;
 import hr.abysalto.hiring.mid.exception.UnauthorizedException;
 import hr.abysalto.hiring.mid.exception.UserAlreadyExistsException;
 import hr.abysalto.hiring.mid.exception.UserNotFoundException;
@@ -54,7 +55,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found!"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
         String token = jwtUtil.generateToken(user);

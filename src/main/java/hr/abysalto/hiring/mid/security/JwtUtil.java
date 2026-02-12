@@ -14,7 +14,7 @@ import java.util.Date;
 @Service
 public class JwtUtil {
 
-    // key bi se inace spremio u .env ili nekakav secret stash u produkciji, ovdje samo referenca
+    // key bi se u stvarnosti spremio u .env ili secret stash u produkciji, ovdje samo referenca
     private static final String SECRET_KEY = "ghjkJ_Wjkk_sdSIvBSUMzKejaN7ht7iEJjXDQOpBaBL5wn";
     private static final long EXPIRATION = 1000 * 60 * 60 * 24;
 
