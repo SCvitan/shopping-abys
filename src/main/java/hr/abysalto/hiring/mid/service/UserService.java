@@ -1,15 +1,20 @@
 package hr.abysalto.hiring.mid.service;
 
 import hr.abysalto.hiring.mid.dto.AuthResponse;
+import hr.abysalto.hiring.mid.dto.LoginRequest;
 import hr.abysalto.hiring.mid.dto.RegisterRequest;
+import hr.abysalto.hiring.mid.exception.UnauthorizedException;
 import hr.abysalto.hiring.mid.exception.UserAlreadyExistsException;
+import hr.abysalto.hiring.mid.exception.UserNotFoundException;
 import hr.abysalto.hiring.mid.model.Cart;
 import hr.abysalto.hiring.mid.model.User;
 import hr.abysalto.hiring.mid.repository.UserRepository;
 import hr.abysalto.hiring.mid.security.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +33,7 @@ public class UserService {
 
     public AuthResponse register(RegisterRequest request, HttpServletResponse response){
         if (userRepository.existsByEmail(request.email())) {
-            throw new UserAlreadyExistsException("User with email: " + request.email() +  " already exists");
+            throw new UserAlreadyExistsException("User with email: " + request.email() +  " already exists.");
         }
 
         User user = new User();
@@ -43,6 +48,42 @@ public class UserService {
 
         String token = jwtUtil.generateToken(user);
         addJwtCookie(response, token);
+        return new AuthResponse(user.getId(), user.getEmail());
+    }
+
+    public AuthResponse login(LoginRequest request, HttpServletResponse response) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        String token = jwtUtil.generateToken(user);
+        addJwtCookie(response, token);
+        return new AuthResponse(user.getId(), user.getEmail());
+
+    }
+
+    public void logout(HttpServletResponse response){
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
+
+    public AuthResponse me(String token) {
+        if (token == null) {
+            throw new UnauthorizedException("User is not authenticated");}
+
+        Long userId = jwtUtil.validateAndGetUserId(token);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UnauthorizedException("User not found"));
+
         return new AuthResponse(user.getId(), user.getEmail());
     }
 
