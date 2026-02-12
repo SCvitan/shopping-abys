@@ -21,6 +21,9 @@ public class Favorites {
         this.productId = productId;
     }
 
+    public Favorites() {
+    }
+
     public Long getId() {
         return id;
     }
