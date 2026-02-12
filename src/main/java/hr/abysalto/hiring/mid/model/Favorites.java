@@ -15,4 +15,33 @@ public class Favorites {
 
     private Long productId;
 
+    public Favorites(Long id, User user, Long productId) {
+        this.id = id;
+        this.user = user;
+        this.productId = productId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 }
