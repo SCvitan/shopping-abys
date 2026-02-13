@@ -19,7 +19,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ProductListResponse> getProducts(@RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "0") int skip) {
+    public ResponseEntity<ProductListResponse> getProducts(@RequestParam(defaultValue = "12") int limit, @RequestParam(defaultValue = "0") int skip) {
         return ResponseEntity.ok(productService.getAllProducts(limit, skip));
     }
 

@@ -52,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .setAuthentication(authentication);
                 }
             } catch (Exception ignored) {
-                // invalid token → user remains unauthenticated
             }
         }
 
